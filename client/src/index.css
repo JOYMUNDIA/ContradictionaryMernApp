@@ -1147,7 +1147,7 @@ profile-modal-close-toggle-input:active ~ .profile-modal-close-toggle-button {
         }
 
         .profileModal {
-        display: none;
+        /*display: none;*/
         position: fixed;
         z-index: 10;
         left: 0;

@@ -1,6 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 
+import FoodProfileCard from './components/ProfileCards/FoodProfileCard'
+import DrugProfileCard from './components/ProfileCards/DrugProfileCard'
+
+import { grapefruitMock } from './mockData/foodMockData'
+import { warfarinMock } from './mockData/drugMockData'
+
+
 const App = () => {
   return (
     <BrowserRouter>
