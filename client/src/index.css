@@ -971,7 +971,7 @@ profile-modal-close-toggle-input:active ~ .profile-modal-close-toggle-button {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: url(images/background.jpg);
+  background: url('./assets/background.jpg');
   background-size: cover;
 }
 
