@@ -10,6 +10,8 @@ import { warfarinMock } from "../mockData/drugMockData"
 import { foodCategoriesMock } from "../mockData/foodCardData"
 import { drugSystemsMock } from "../mockData/drugCardData"
 
+import Footer from "../components/Footer/Footer"
+
 const Home = () => {
   const [view, setView] = useState<"food" | "drug">("food")
 
@@ -78,6 +80,8 @@ const Home = () => {
           )}
         </div>
       </div>
+
+      <Footer />
     </>
   )
 }

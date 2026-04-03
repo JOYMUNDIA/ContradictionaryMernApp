@@ -914,9 +914,9 @@ profile-modal-close-toggle-input:active ~ .profile-modal-close-toggle-button {
   display: flex;
 }
 
-.drug-card-row {
+/* .drug-card-row {
   display: none;
-}
+} */
 
 /* Common Contraindications CSS */
 .common-contraindication{
