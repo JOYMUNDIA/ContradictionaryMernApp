@@ -1,4 +1,4 @@
-// src/components/ProfileCards/DrugSystemCard.tsx
+import { useState } from "react"
 import type { DrugSystem } from "../../mockData/drugCardData"
 
 interface Props extends DrugSystem {}
@@ -9,44 +9,61 @@ const DrugSystemCard = ({ system, image, miniCards }: Props) => {
       <div className="card-image">
         <img src={image} alt={system} />
       </div>
+
       <div className="card-content">
         <h2>{system}</h2>
 
-        {miniCards.map((card, idx) => (
-          <div className="mini-card expandable-card" key={idx}>
-            <h3>{card.title}</h3>
+        {miniCards.map((card, idx) => {
+          const [expanded, setExpanded] = useState(false)
 
-            {/* Toggle button to expand cards */}
-            <div className="expand-toggle">
-              <input type="checkbox" className="expand-toggle-input" aria-label="Expand" />
-              <span className="expand-toggle-button"></span>
-              <span className="expand-toggle-label">+</span>
-            </div>
+          return (
+            <div className="mini-card expandable-card" key={idx}>
+              <h3>{card.title}</h3>
 
-            <ul>
-              {card.items.map((drug, index) => (
-                <li key={index} className={index > 0 ? "extra-item" : ""}>
-                  {drug}
-                </li>
-              ))}
-              {card.items.length > 3 && <li className="show-more">...</li>}
-            </ul>
-
-            {card.link && (
-              <div className="button-container">
-                <a href={card.link}>
-                  <button className="drug-category-contraindication-btn" role="button">
-                    <div className="button-outer">
-                      <div className="button-inner">
-                        <span>Food Contraindications</span>
-                      </div>
-                    </div>
-                  </button>
-                </a>
+              {/* Toggle */}
+              <div
+                className="expand-toggle"
+                onClick={() => setExpanded(!expanded)}
+              >
+                <span className="expand-toggle-button"></span>
+                <span className="expand-toggle-label">
+                  {expanded ? "−" : "+"}
+                </span>
               </div>
-            )}
-          </div>
-        ))}
+
+              <ul>
+                {card.items.map((drug, index) => {
+                  // show all if expanded, otherwise only first item
+                  if (!expanded && index > 0) return null
+
+                  return (
+                    <li key={index}>
+                      {drug}
+                    </li>
+                  )
+                })}
+
+                {!expanded && card.items.length > 1 && (
+                  <li className="show-more">...</li>
+                )}
+              </ul>
+
+              {card.link && (
+                <div className="button-container">
+                  <a href={card.link}>
+                    <button className="drug-category-contraindication-btn">
+                      <div className="button-outer">
+                        <div className="button-inner">
+                          <span>Food Contraindications</span>
+                        </div>
+                      </div>
+                    </button>
+                  </a>
+                </div>
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )
