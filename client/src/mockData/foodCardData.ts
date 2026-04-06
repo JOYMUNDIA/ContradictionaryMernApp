@@ -3,7 +3,7 @@ import carbsImg from "../assets/FoodCategoryImages/carbs-food-category.png";
 import condimentsImg from "../assets/FoodCategoryImages/Condiments-food-category.png";
 import dairyImg from "../assets/FoodCategoryImages/dairy food category.png";
 import drinkImg from "../assets/FoodCategoryImages/drink-food-category.png";
-import fruitsImg from "../assets/FoodCategoryImages/fruits fruit category.png";
+import fruitsImg from "../assets/FoodCategoryImages/fruits_fruit_category.png";
 import nonMeatProteinImg from "../assets/FoodCategoryImages/Non-Meat Protein food-category.png";
 import nutsImg from "../assets/FoodCategoryImages/nuts-food-category.png";
 import redMeatImg from "../assets/FoodCategoryImages/red meat food category.png";

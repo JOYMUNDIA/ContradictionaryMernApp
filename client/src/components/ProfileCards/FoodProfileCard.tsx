@@ -1,7 +1,11 @@
 import { useState } from "react"
 import type { FoodProfile } from "../../types/food"
 
-const FoodProfileCard = (props: FoodProfile) => {
+type Props = FoodProfile & {
+  items?: { id: string; name: string }[]
+}
+
+const FoodProfileCard = (props: Props) => {
   const {
     name,
     image,
@@ -12,19 +16,19 @@ const FoodProfileCard = (props: FoodProfile) => {
     interactions,
     advice,
     scientificBackground,
+    items = [],
   } = props
 
-  const [activeTab, setActiveTab] =
-    useState<"overview" | "interactions" | "advice">("overview")
+  const [activeTab, setActiveTab] = useState<
+    "overview" | "interactions" | "advice" | "items"
+  >("overview")
 
-  // Track which accordions are open
   const [openAccordions, setOpenAccordions] = useState<number[]>([])
   const [showModal, setShowModal] = useState(false)
 
-  // Toggle accordion open/close
   const toggleAccordion = (index: number) => {
     setOpenAccordions((prev) =>
-      prev.includes(index) ? [] : [index] // single-open behavior like static
+      prev.includes(index) ? [] : [index]
     )
   }
 
@@ -35,76 +39,89 @@ const FoodProfileCard = (props: FoodProfile) => {
 
           {/* Header */}
           <div className="header">
-            <h2>{name} Profile</h2>
+            <h2>{name} Overview Profile</h2>
             <img src={image} alt={name} />
           </div>
 
           {/* Tabs */}
           <div className="tabs">
-            <div
-              className={`tab ${activeTab === "overview" ? "active" : ""}`}
-              onClick={() => {
-                setActiveTab("overview")
-                setOpenAccordions([])
-              }}
-            >
-              Overview
-            </div>
-            <div
-              className={`tab ${activeTab === "interactions" ? "active" : ""}`}
-              onClick={() => {
-                setActiveTab("interactions")
-                setOpenAccordions([])
-              }}
-            >
-              Drug Interactions
-            </div>
-            <div
-              className={`tab ${activeTab === "advice" ? "active" : ""}`}
-              onClick={() => setActiveTab("advice")}
-            >
-              Patient Advice
-            </div>
+            {scientificName || forms.length || nutrients.length || effect ? (
+              <div
+                className={`tab ${activeTab === "overview" ? "active" : ""}`}
+                onClick={() => {
+                  setActiveTab("overview");
+                  setOpenAccordions([]);
+                }}
+              >
+                Overview
+              </div>
+            ) : null}
+
+            {interactions.length > 0 && (
+              <div
+                className={`tab ${activeTab === "interactions" ? "active" : ""}`}
+                onClick={() => {
+                  setActiveTab("interactions");
+                  setOpenAccordions([]);
+                }}
+              >
+                Drug Interactions
+              </div>
+            )}
+
+            {advice.length > 0 && (
+              <div
+                className={`tab ${activeTab === "advice" ? "active" : ""}`}
+                onClick={() => setActiveTab("advice")}
+              >
+                Patient Advice
+              </div>
+            )}
+
+            {items.length > 0 && (
+              <div
+                className={`tab ${activeTab === "items" ? "active" : ""}`}
+                onClick={() => setActiveTab("items")}
+              >
+                Items
+              </div>
+            )}
           </div>
 
-          {/* Overview Tab */}
+          {/* OVERVIEW */}
           {activeTab === "overview" && (
             <div className="tab-content active">
               <p><strong>Scientific Name:</strong> {scientificName}</p>
               <p><strong>Common Forms:</strong> {forms.join(", ")}</p>
-              <p><strong>Nutritional:</strong> {nutrients.join(", ")}</p>
+              <p><strong>Nutritional Highlights:</strong> {nutrients.join(", ")}</p>
               <p><strong>Effect:</strong> {effect}</p>
 
-              <button
-                className="btn"
-                role="button"
-                onClick={() => setShowModal(true)}
-              >
+              {scientificBackground.length > 0 && (
+              <button className="btn" onClick={() => setShowModal(true)}>
                 <div className="button-outer">
                   <div className="button-inner">
-                    <span>
-                      <span className="emoji">🧪</span> View Scientific Background
-                    </span>
+                    <span><span className="emoji">🧪</span> View Scientific Background</span>
                   </div>
                 </div>
               </button>
+            )}
+
             </div>
           )}
 
-          {/* Interactions Tab */}
+          {/* INTERACTIONS */}
           {activeTab === "interactions" && (
             <div className="tab-content active">
               {interactions.map((item, index) => (
                 <div
                   className={`accordion ${openAccordions.includes(index) ? "active" : ""}`}
-                  key={item.drugClass}
+                  key={index}
                 >
                   <div
                     className="accordion-header"
                     onClick={() => toggleAccordion(index)}
                   >
-                    {item.drugClass}{" "}
-                    {item.category && <small>{item.category}</small>}
+                    {item.drugClass} {item.category && <small>{item.category}</small>}
                     <span className="accordion-icon">
                       {openAccordions.includes(index) ? "−" : "+"}
                     </span>
@@ -112,15 +129,15 @@ const FoodProfileCard = (props: FoodProfile) => {
 
                   <div className="accordion-body">
                     <p><strong>Interaction:</strong> {item.interaction}</p>
-                    <p><strong>Layman Explanation:</strong> {item.layman}</p>
-                    <p><strong>Scientific Explanation:</strong> {item.scientific}</p>
+                    <p><strong>Layman:</strong> {item.layman}</p>
+                    <p><strong>Scientific:</strong> {item.scientific}</p>
                   </div>
                 </div>
               ))}
             </div>
           )}
 
-          {/* Advice Tab */}
+          {/* ADVICE */}
           {activeTab === "advice" && (
             <div className="tab-content active">
               <ul>
@@ -131,10 +148,25 @@ const FoodProfileCard = (props: FoodProfile) => {
             </div>
           )}
 
+          {/* ITEMS TAB (matches static design) */}
+          {activeTab === "items" && (
+            <div className="tab-content active">
+              <div className="disclaimer-box">
+                <strong>Disclaimer:</strong> This is a representative list and not exhaustive.
+              </div>
+
+              <ul>
+                {items.map((item) => (
+                  <li key={item.id}>{item.name}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
         </div>
       </div>
 
-      {/* Scientific Background Modal */}
+      {/* MODAL */}
       {showModal && (
         <div className="profileModal" onClick={() => setShowModal(false)}>
           <div
@@ -150,8 +182,8 @@ const FoodProfileCard = (props: FoodProfile) => {
 
             <h3>🧪 Scientific Background</h3>
 
-            {scientificBackground.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
+            {scientificBackground.map((p) => (
+              <p key={p}>{p}</p>
             ))}
           </div>
         </div>

@@ -1,14 +1,21 @@
-// src/components/ProfileCards/FoodCategoryCard.tsx
+import { useNavigate } from "react-router-dom"
 import type { FoodCategory } from "../../mockData/foodCardData";
 
 interface Props extends FoodCategory {}
 
-const FoodCategoryCard = ({ title, image, items, link }: Props) => {
+const FoodCategoryCard = ({ title, image, items }: Props) => {
+  const navigate = useNavigate()
+
+  const handleClick = () => {
+    navigate(`/food/${title.toLowerCase().replace(/\s+/g, "-")}`)
+  }
+
   return (
     <div className="food-category-card">
       <div className="card-image">
         <img src={image} alt={title} />
       </div>
+
       <div className="card-content">
         <h1>{title}</h1>
         <ul>
@@ -18,21 +25,20 @@ const FoodCategoryCard = ({ title, image, items, link }: Props) => {
         </ul>
       </div>
 
-      {link && (
-        <div className="button-container">
-          <a href={link}>
-            <button className="food-category-contraindication-btn" role="button">
-              <div className="button-outer">
-                <div className="button-inner">
-                  <span>Drug Contraindications</span>
-                </div>
-              </div>
-            </button>
-          </a>
-        </div>
-      )}
+      <div className="button-container">
+        <button
+          onClick={handleClick}
+          className="food-category-contraindication-btn"
+        >
+          <div className="button-outer">
+            <div className="button-inner">
+              <span>Drug Contraindications</span>
+            </div>
+          </div>
+        </button>
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export default FoodCategoryCard;
+export default FoodCategoryCard

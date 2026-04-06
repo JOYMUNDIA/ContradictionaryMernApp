@@ -977,6 +977,7 @@ profile-modal-close-toggle-input:active ~ .profile-modal-close-toggle-button {
 
 .profile-card-container{
   width: 100%;
+  position: relative;
   overflow: visible;
   padding: 0.5rem;
   /*display: flex;
@@ -1165,6 +1166,7 @@ profile-modal-close-toggle-input:active ~ .profile-modal-close-toggle-button {
         max-width: 500px;
         border-radius: 8px;
         position: relative;
+        line-height: 1.7;
         }
 
         .profileModal-close {
